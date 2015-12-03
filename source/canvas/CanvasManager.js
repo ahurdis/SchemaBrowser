@@ -196,7 +196,6 @@ define(["source/graph/Graph", "source/canvas/CanvasUtilities", "source/canvas/Ta
                             // Need to clear the old selection border
                         }
                     } catch (e) {
-
                         alert(e.message);
                     }
                 };
