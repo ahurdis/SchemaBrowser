@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>EditBox Example</title>
+
+        <!-- jQuery -->
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+        <!-- Require -->
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/require.js/1.0.8/require.min.js"></script>
+
+
+    </head>
+	<body>		
+        <script type="text/javascript">
+ 
+            $(document).ready(function () {
+
+                require(['source/control/Form'],
+                    function (Form) {
+                        try {
+
+                            var theForm = new Form({  });
+
+                            theForm.addButton({
+                                    canvas: document.getElementById('canvas'),
+                                    form:theForm,
+                                    fontSize: 12,
+                                    fontFamily: 'Verdana',
+                                    fontColor: '#212121',
+                                    fontWeight: 'bold',
+                                    width: 80,
+                                    height: 40
+                                });
+                        }
+                        catch (e) {
+                            alert('button.html ' + e.name + ' ' + e.message);
+                        }
+                    });
+                });
+
+        </script>
+
+        <canvas id="canvas" tabindex="1" width="350" height="200"></canvas>
+
+    </body>
+</html>

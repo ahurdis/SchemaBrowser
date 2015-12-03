@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>EntityControl Example</title>
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+    <!-- Require -->
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/require.js/1.0.8/require.min.js"></script>
+
+
+</head>
+<body>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            require(["source/control/EntityControl"],
+                function (EntityControl) {
+                    try {
+                        var theCanvas = document.getElementById('canvas');
+
+
+                        new EntityControl({
+                            canvas: theCanvas,
+                            label: 'Red',
+                            fontSize: 14,
+                            fontFamily: 'Verdana',
+                            fontColor: '#FF1111',
+                            textPadding: 2,
+                            boxSize: 18,
+                            fontWeight: 'bold',
+                            x: 10,
+                            y: 50
+                        });
+
+                        /*
+                        new Expander({
+                            canvas: theCanvas,
+                            label: 'Red',
+                            fontSize: 14,
+                            fontFamily: 'Verdana',
+                            fontColor: '#FF1111',
+                            textPadding: 2,
+                            boxSize: 18,
+                            fontWeight: 'bold',
+                            x: 10,
+                            y: 50
+                        });
+                        */
+                    }
+                    catch (e) {
+                        alert('EntityControl.html ' + e.name + " " + e.message);
+                    }
+                });
+        });
+
+    </script>
+
+    <canvas id="canvas" tabindex="1" width="1200" height="1200"></canvas>
+
+</body>
+</html>

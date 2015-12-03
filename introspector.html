@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>EditBox Example</title>
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+    <!-- Require -->
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/require.js/1.0.8/require.min.js"></script>
+
+
+</head>
+<body>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            require(['source/control/EditBox', 'source/control/Form', 'source/Introspector'],
+                function (EditBox, Form, Introspector) {
+                    try {
+
+                        /*
+                            var theForm = new Form({
+                            });
+    
+                            theForm.addControl(
+                                new EditBox({
+                                    canvas: document.getElementById('canvas'),
+                                    form: theForm,
+                                    fontSize: 12,
+                                    fontFamily: 'Verdana',
+                                    fontColor: '#212121',
+                                    fontWeight: 'bold',
+                                    width: 300,
+                                    label: 'Just Do It'
+                                })
+                            );
+                            */
+
+                        var obj = { age:1, type:'monkey', name:'bonzo', habits: { favoriteFood: 'banana', naps: 'often'}}; 
+
+                        var introspector = new Introspector();
+
+                        document.getElementById('myDiv').innerHTML = introspector.Introspect('myObj', obj);
+                    }
+                    catch (e) {
+                        alert('EditBox.html ' + e.name + ' ' + e.message);
+                    }
+                });
+        });
+
+    </script>
+
+    <div id="myDiv" width="350" height="200"></div>
+
+    <canvas id="canvas" tabindex="1" width="350" height="200"></canvas>
+
+</body>
+</html>

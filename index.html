@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>A Graph - The HelloWorld of Examples</title>
+
+    <link rel="stylesheet" href="css/index.css" />
+
+    <!-- jQuery -->
+    <!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script> -->
+    
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    
+    <!-- jQuery UI-->
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+    <!-- Require -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.20/require.min.js"></script>
+
+    <!-- Underscore -->
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min.js"></script>
+
+    <!-- Drag-n-Drop Support -->
+    <script type="text/javascript" src="source/utility/dnd.js"></script>
+
+</head>
+
+<body>
+    <table border="0" cellpadding="7" cellspacing="0">
+        <tr>
+            <td></td>
+            <td>
+                <img src="images/OpenGraph.png" title="Open a graph." alt="Open a graph." width="64" height="64" border="0" class="mouseOut"
+                onmouseover="this.className='mouseOver'" onmousedown="this.className='mouseDown'" onmouseup="this.className='mouseUp'; app.LoadGraph();"
+                onmouseout="this.className='mouseOut'">
+
+                <img src="images/SaveGraph.png" title="Save a graph." alt="Save a graph." width="64" height="64" border="0" class="mouseOut"
+                onmouseover="this.className='mouseOver'" onmousedown="this.className='mouseDown'" onmouseup="this.className='mouseUp'; app.SaveGraph();"
+                onmouseout="this.className='mouseOut'">
+
+                <img src="images/AddNode.png" title="Add a node." alt="Add a node." width="64" height="64" border="0" class="mouseOut" onmouseover="this.className='mouseOver'"
+                onmousedown="this.className='mouseDown'" onmouseup="this.className='mouseUp'" onmouseout="this.className='mouseOut'">
+
+                <img src="images/AddEdge.png" title="Add an edge." alt="Add an edge." width="64" height="64" border="0" class="mouseOut"
+                onmouseover="this.className='mouseOver'" onmousedown="this.className='mouseDown'" onmouseup="this.className='mouseUp'; app.SetMouseHandler('DrawEdge');"
+                onmouseout="this.className='mouseOut'">
+
+                <img src="images/MoveNode.png" title="Move a node." alt="Move a node." width="64" height="64" border="0" class="mouseOut"
+                onmouseover="this.className='mouseOver'" onmousedown="this.className='mouseDown'" onmouseup="this.className='mouseUp';  app.SetMouseHandler('MoveNode');"
+                onmouseout="this.className='mouseOut'">
+
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                <div id="accordion">
+                    <h3><a href="#">Input</a></h3>
+                    <div>
+                        <p>
+                            <a href='#'>JSON</a>
+                        </p>
+                        <p>
+                            <a href='#'>SQL Server</a>
+                        </p>
+                        <p>
+                            <a href='#' ondragstart="drag(event)">YQL</a>
+                        </p>
+                        <p>
+                            <a href='#'>oData</a>
+                        </p>
+                    </div>
+                    <h3><a href="#">Filter</a></h3>
+                    <div>
+                        <p>
+                            <a href='#'>Filter</a>
+                        </p>
+                    </div>
+                    <h3><a href="#">Output</a></h3>
+                    <div>
+                        <p>
+                            <a href='#'>HTML Table</a>
+                        </p>
+                        <p>
+                            <a href='#'>RESTful Service</a>
+                        </p>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <canvas id="canvasId" ondrop="drop(event, app.canvasManager)" ondragover="allowDrop(event)" width="600px" height="600px"></canvas>
+            </td>
+
+        </tr>
+    </table>
+
+    <script type="text/javascript">
+        var app = null;
+
+            $(document).ready(function ()
+            {
+           //     $("#accordion").accordion();
+                require(["source/App"],
+                function (App) {
+                    try {
+                        app = new App();
+                    
+                        $(".vertexClass").hide();
+                    }
+                    catch(e)
+                    {
+                        alert("index.html: app initialize " + e.name + " " + e.message);
+                    }
+                });
+    
+            });
+    </script>
+</body>
+
+</html>

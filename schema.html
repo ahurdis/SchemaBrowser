@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>A Graph - The HelloWorld of Examples</title>
+
+		<link rel="stylesheet" href="css/index.css" />
+
+        <!-- jQuery -->
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+        <!-- jQuery UI-->
+        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+        <!-- DataTables -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+        <!-- Require -->
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/require.js/1.0.8/require.min.js"></script>
+        <!-- Underscore -->
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min.js"></script>
+
+    </head>
+	<body>
+		<table border="0" cellpadding="7" cellspacing="0">
+			<tr>
+                <td></td>
+                <td>
+					<img src="images/OpenGraph.png"
+                        title="Open a graph."
+                        alt="Open a graph."
+                        width="64"
+                        height="64"
+                        border="0"
+                        class="mouseOut"
+                        onmouseover="this.className='mouseOver'"
+                        onmousedown="this.className='mouseDown'"
+                        onmouseup="this.className='mouseUp'; LoadGraph();"
+                        onmouseout="this.className='mouseOut'">
+					
+					<img src    = "images/SaveGraph.png"
+					title       = "Save a graph."
+					alt 		= "Save a graph."
+					width       = "64"
+					height      = "64"
+					border      = "0"
+					class       = "mouseOut"
+					onmouseover = "this.className='mouseOver'"
+					onmousedown = "this.className='mouseDown'"
+					onmouseup   = "this.className='mouseUp'; SaveGraph();"
+					onmouseout  = "this.className='mouseOut'">
+					
+					<img src    = "images/AddNode.png"
+					title       = "Add a node."
+					alt 		= "Add a node."
+					width       = "64"
+					height      = "64"
+					border      = "0"
+					class       = "mouseOut"
+					onmouseover = "this.className='mouseOver'"
+					onmousedown = "this.className='mouseDown'"
+					onmouseup   = "this.className='mouseUp'"
+					onmouseout  = "this.className='mouseOut'">
+					
+					<img src    = "images/AddEdge.png"
+					title 		= "Add an edge."
+					alt			= "Add an edge."
+					width       = "64"
+					height      = "64"
+					border      = "0"
+					class       = "mouseOut"
+					onmouseover = "this.className='mouseOver'"
+					onmousedown = "this.className='mouseDown'"
+					onmouseup   = "this.className='mouseUp';"
+					onmouseout  = "this.className='mouseOut'">
+					
+					<img src    = "images/MoveNode.png"
+					title       = "Move a node."
+					alt 		= "Move a node."
+					width       = "64"
+					height      = "64"
+					border      = "0"
+					class       = "mouseOut"
+					onmouseover = "this.className='mouseOver'"
+					onmousedown = "this.className='mouseDown'"
+					onmouseup   = "this.className='mouseUp';"
+					onmouseout  = "this.className='mouseOut'">
+
+                </td>
+                <td></td>
+            </tr>
+			<tr>
+                <td>
+                    <div id="accordion">
+                        <h3><a href="#">Input</a></h3>
+                        <div>
+                            <p>
+                                <a href='#'>JSON</a>
+                            </p>
+                            <p>
+                                <a href='#'>SQL Server</a>
+                            </p>
+                            <p>
+                                <a href='#' ondragstart="drag(event)">YQL</a>
+                            </p>
+                            <p>
+                                <a href='#'>oData</a>
+                            </p>
+                        </div>
+                        <h3><a href="#">Filter</a></h3>
+                        <div>
+                            <p>
+                                <a href='#'>Filter</a>
+                            </p>
+                        </div>
+                        <h3><a href="#">Output</a></h3>
+                        <div>
+                            <p>
+                                <a href='#'>HTML Table</a>
+                            </p>
+                            <p>
+                                <a href='#'>RESTful Service</a>
+                            </p>
+                        </div>
+                    </div>
+                </td>
+				<td>
+                    <canvas id="canvasId" ondrop="drop(event)" ondragover="allowDrop(event)" width="600px" height="600px"></canvas>
+				</td>
+
+			</tr>
+		</table>
+
+        <script type="text/javascript">
+ 
+ 
+            var lineCanvas = null;
+		    var graphFactory = null;
+
+            $(document).ready(function ()
+            {
+                $("#accordion").accordion();
+
+                require(['source/canvas/LineCanvas', 'source/control/EntityControl', 'source/graph/GraphFactory', 'source/graph/GraphSerializer'],
+                function (LineCanvas, EntityControl, GraphFactory, GraphSerializer)
+                {
+                    try
+                    {
+                        graphFactory = new GraphFactory();
+
+                        var graph = graphFactory.CreateSimpleGraph();
+
+                        var theCanvas = document.getElementById('canvasId');
+
+                        lineCanvas = new LineCanvas({ canvas: theCanvas,
+                                                      graph: graph });
+
+                        lineCanvas.addControl( new EntityControl({
+                                                    canvas: theCanvas,
+                                                    label: 'Red',
+                                                    fontSize: 14,
+                                                    fontFamily: 'Verdana',
+                                                    fontColor: '#FF1111',
+                                                    textPadding: 2,
+                                                    boxSize: 18,
+                                                    fontWeight: 'bold',
+                                                    x: 10,
+                                                    y: 50
+                        }));
+
+                        lineCanvas.addControl( new EntityControl({
+                                                    canvas: theCanvas,
+                                                    label: 'Red',
+                                                    fontSize: 14,
+                                                    fontFamily: 'Verdana',
+                                                    fontColor: '#FF1111',
+                                                    textPadding: 2,
+                                                    boxSize: 18,
+                                                    fontWeight: 'bold',
+                                                    x: 80,
+                                                    y: 200
+                                                }));
+
+                        graphSerializer = new GraphSerializer();
+
+                    }
+                    catch (e)
+                    {
+                        alert('schema.html ' + e.name + ' ' + e.message);
+                    }
+                });
+		    });
+
+            function allowDrop(ev) {
+                ev.preventDefault();
+            }
+
+            function drag(ev) {
+                ev.dataTransfer.setData('Text', ev.target.innerHTML);
+            }
+
+            function drop(ev) {
+                ev.preventDefault();
+                var vertexName = ev.dataTransfer.getData('Text');
+                canvasBase.AddVertex(vertexName, ev);
+            }
+
+            function SaveGraph() {
+                try {
+                    graphSerializer.saveGraph(canvasManager.GetGraph());
+                }
+                catch (e) {
+                    alert('schema.html: saveGraph ' + e.name + ' ' + e.message);
+                }
+            }
+
+            function LoadGraph() {
+                try {
+                    CanvasBase.SetGraph(graphSerializer.loadGraph());
+                }
+                catch (e) {
+                    alert('schema.html: loadGraph ' + e.name + ' ' + e.message);
+                }
+            }
+
+        </script>
+    </body>
+</html>

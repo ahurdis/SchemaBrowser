@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>EditBox Example</title>
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+    <!-- Require -->
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/require.js/1.0.8/require.min.js"></script>
+
+
+</head>
+<body>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            require(['source/control/Form'],
+                function (Form) {
+                    try {
+
+                        var objUpdate = { ID_NAME_LABEL: 'The Label', ID_NAME_EDIT: 'Coolness' };
+
+                        // this tests our ability to provide data to the form on init
+
+                        var theForm = new Form({ data: objUpdate });
+//                        var theForm = new Form({  });
+
+                        theForm.addLabel({
+                            canvas: document.getElementById('canvas'),
+                            form: theForm,
+                            id: 'ID_NAME_LABEL',
+                            fontSize: 10,
+                            fontFamily: 'Verdana',
+                            fontColor: '#212121',
+                            value: 'Name:'
+                        });
+                        
+                        theForm.addEditBox({
+                            canvas: document.getElementById('canvas'),
+                            form: theForm,
+                            id: 'ID_NAME_EDIT',
+                            fontSize: 12,
+                            fontFamily: 'Verdana',
+                            fontColor: '#212121',
+                            fontWeight: 'bold',
+                            width: 300,
+                            placeHolderText: 'Street Address, P.O. Box'
+                        });
+ 
+                        theForm.addDropDown({
+                            canvas: document.getElementById('canvas'),
+                            form: theForm,
+                            id: 'ID_FRUIT_DROPDOWN',
+                            fontSize: 12,
+                            fontFamily: 'Verdana',
+                            fontColor: '#212121',
+                            fontWeight: 'bold',
+                            value: 'DropDown'
+                        });
+
+                        theForm.addSubmitButton({
+                            canvas: document.getElementById('canvas'),
+                            form: theForm,
+                            id: 'ID_SUBMIT_BUTTON',
+                            fontSize: 12,
+                            fontFamily: 'Verdana',
+                            fontColor: '#212121',
+                            fontWeight: 'bold',
+                            width: 80,
+                            height: 40
+                        });
+
+
+                        // and this tests our ability to update the form with values subsequent to form creation
+                        // theForm.update(objUpdate);
+                    }
+                    catch (e) {
+                        alert('form.html ' + e.name + ' ' + e.message);
+                    }
+                });
+        });
+
+    </script>
+
+    <canvas id="canvas" tabindex="1" width="350" height="400"></canvas>
+
+</body>
+</html>

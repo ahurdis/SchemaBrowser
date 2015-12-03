@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Script-based animation using requestAnimationFrame</title>
+    <style type="text/css">
+        div {
+            position: absolute;
+            left: 10px;
+            top: 100px;
+            padding: 50px;
+            background: crimson;
+            color: white;
+        }
+    </style>
+
+</head>
+<body>
+
+    <div id="animated">Hello there.</div>
+    <button onclick="start()">Start</button>
+    <button onclick="stop()">Stop</button>
+    <script type="text/javascript">
+        var elm = document.getElementById("animated");
+        var stopped;
+        var requestId = 0;
+        var starttime;
+
+        function render(time) {
+            // set left style to a function of time.
+            if (!stopped) {
+                elm.style.left = ((Date.now() - starttime) / 4 % 600) + "px";
+                requestId = window.requestAnimationFrame(render);
+            }
+        }
+
+        function start() {
+            starttime = Date.now();
+            requestId = window.requestAnimationFrame(render);
+            stopped = false;
+        }
+        function stop() {
+            if (requestId) {
+                window.cancelAnimationFrame(requestId);
+            }
+            stopped = true;
+        }
+
+
+    </script>
+</body>
+</html>
