@@ -13,6 +13,10 @@ define(function () {
 
         }
         
+        /*
+        Makes a GET request to the server with JSON data
+        JSONP callback returns the status of the request 
+        */
         ret.postJSON = function (that, options, callback) {
 
             try {
