@@ -7,17 +7,42 @@
 
 define(function () {
     try {
-        var self = function RestHelper() {
+        var ret = function RestHelper() {
+            var self = this;
+            
 
         }
         
-        self.makeRequest = function (that, options, callback) {
+        ret.postJSON = function (that, options, callback) {
+
+            try {
+                 // now we call the rest service
+                $.ajax({
+                    url:  'http://127.0.0.1:1337/' + options.method,
+                    dataType: "jsonp",
+                    jsonpCallback: "_testcb",
+                    data: 'jsonData=' + JSON.stringify(options.data),
+                    contentType: 'application/json',
+                    cache: options.cache || false,
+                    timeout: options.timeout || 5000,
+                    success: callback,
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert('error ' + textStatus + " " + errorThrown);
+                    }
+                });
+            }
+            catch (e) {
+                alert(e);
+            }
+        };
+       
+        ret.makeRequest = function (that, options, callback) {
 
             try {
                 $.support.cors = true;
                 // now we call the rest service
                 $.ajax({
-                    url: 'http://127.0.0.1:1337/' + options.method,
+                    url: self.url + options.method,
                     dataType: "jsonp",
                     jsonpCallback: "_testcb",
                     async: false,
@@ -34,7 +59,7 @@ define(function () {
             }
         };
 
-        return self;
+        return ret;
     } catch (e) {
         alert("RestHelper c'tor " + e.name + " " + e.message);
     }

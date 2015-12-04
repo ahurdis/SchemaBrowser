@@ -16,7 +16,6 @@ define(["source/graph/Graph", "source/canvas/CanvasUtilities", "source/canvas/Ta
                 self.canvas = canvas;
                 self.ctx = self.canvas.getContext('2d');
                 self.mouseHandler = 'DrawNode';
-                self.restHelper = new RestHelper();
                 
                 // for every edge in the graph, create a tableshape
                 var vertices = self.graph.GetVertices();
@@ -25,37 +24,36 @@ define(["source/graph/Graph", "source/canvas/CanvasUtilities", "source/canvas/Ta
                     var graphData = vertices[i];
                     vertices[i].shape = new TableShape(graphData.x, graphData.y, graphData.imageName);
                 }
-
-               
+             
                 self.SetMouseHandler = function (mouseHandler) {
                     self.mouseHandler = mouseHandler;
                 }
 
-                this.AddVertex = function (vertexId, e) {
+                self.AddVertex = function (vertexId, e) {
 
                     if (vertexId === null)
                         return;
 
-                    var mouse = this.GetMouse(e);
+                    var mouse = self.GetMouse(e);
                     var x = mouse.x;
                     var y = mouse.y;
+                    
+                    var gd = { name: 'My Data Source', type: 'SQLServer', x: x, y: y, imageName: 'images/DataSource.png' };
 
-                    RestHelper.makeRequest(this, { method: 'CreateVertex' }, function (data) {
+                    RestHelper.postJSON(this, { method: 'CreateVertex', data: gd }, function (data) {
 
-                        var v = self.graph.AddVertex({ type: 'Data Source', x: x, y: y, imageName: 'images/DataSource.png' });
+                        var v = self.graph.AddVertex(gd);
 
                         v.shape = new TableShape(v.x, v.y, v.imageName);
 
                         self.valid = false;
-
+                        
+//                        alert('The graph has ' + data + ' elements in it.')
                     });
-
-
-
                 };
 
-                this.GetMouse = function (e) {
-                    var element = this.canvas, offsetX = 0, offsetY = 0, mx, my;
+                self.GetMouse = function (e) {
+                    var element = self.canvas, offsetX = 0, offsetY = 0, mx, my;
 
                     // Compute the total offset
                     if (element.offsetParent !== undefined) {
@@ -66,8 +64,8 @@ define(["source/graph/Graph", "source/canvas/CanvasUtilities", "source/canvas/Ta
                     }
 
                     // Add padding and border style widths to offset
-                    offsetX += this.stylePaddingLeft + this.styleBorderLeft + this.htmlLeft;
-                    offsetY += this.stylePaddingTop + this.styleBorderTop + this.htmlTop;
+                    offsetX += self.stylePaddingLeft + self.styleBorderLeft + self.htmlLeft;
+                    offsetY += self.stylePaddingTop + self.styleBorderTop + self.htmlTop;
                     mx = e.pageX - offsetX;
                     my = e.pageY - offsetY;
 
@@ -207,41 +205,41 @@ define(["source/graph/Graph", "source/canvas/CanvasUtilities", "source/canvas/Ta
 
                 if (document.defaultView && document.defaultView.getComputedStyle) {
 
-                    this.stylePaddingLeft = parseInt(document.defaultView.getComputedStyle(canvas, null)['paddingLeft'], 10) || 0;
-                    this.stylePaddingTop = parseInt(document.defaultView.getComputedStyle(canvas, null)['paddingTop'], 10) || 0;
-                    this.styleBorderLeft = parseInt(document.defaultView.getComputedStyle(canvas, null)['borderLeftWidth'], 10) || 0;
-                    this.styleBorderTop = parseInt(document.defaultView.getComputedStyle(canvas, null)['borderTopWidth'], 10) || 0;
+                    self.stylePaddingLeft = parseInt(document.defaultView.getComputedStyle(canvas, null)['paddingLeft'], 10) || 0;
+                    self.stylePaddingTop = parseInt(document.defaultView.getComputedStyle(canvas, null)['paddingTop'], 10) || 0;
+                    self.styleBorderLeft = parseInt(document.defaultView.getComputedStyle(canvas, null)['borderLeftWidth'], 10) || 0;
+                    self.styleBorderTop = parseInt(document.defaultView.getComputedStyle(canvas, null)['borderTopWidth'], 10) || 0;
                 }
                 // Some pages have fixed-position bars (like the stumbleupon bar) at the top or left of the page
                 // They will mess up mouse coordinates and this fixes that
                 var html = document.body.parentNode;
-                this.htmlTop = html.offsetTop;
-                this.htmlLeft = html.offsetLeft;
+                self.htmlTop = html.offsetTop;
+                self.htmlLeft = html.offsetLeft;
 
                 // **** Keep track of state! ****
 
-                this.valid = false;
+                self.valid = false;
                 // when set to false, the canvas will redraw everything
-                this.dragging = false;
+                self.dragging = false;
                 // Keep track of when we are dragging
                 // the current selected object. In the future we could turn this into an array for multiple selection
-                this.selection = null;
-                this.selectedVertex = null;
-                this.dragoffx = 0;
-                this.dragoffy = 0;
+                self.selection = null;
+                self.selectedVertex = null;
+                self.dragoffx = 0;
+                self.dragoffy = 0;
 
                 // mousedown, mousemove, and mouseup are for dragging
                 $(canvas).bind('mousedown', m_functionOnMouseDown);
                 $(canvas).bind('mousemove', m_functionOnMouseMove);
                 $(canvas).bind('mouseup', m_functionOnMouseUp);
 
-                this.Clear = function () {
-                    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                self.Clear = function () {
+                    self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
                 };
 
                 // While draw is called as often as the INTERVAL variable demands,
                 // It only ever does something if the canvas gets invalidated by our code
-                this.Draw = function () {
+                self.Draw = function () {
                     // if our state is invalid, redraw and validate
                     if (!self.valid) {
                         var ctx = self.ctx;
@@ -283,7 +281,7 @@ define(["source/graph/Graph", "source/canvas/CanvasUtilities", "source/canvas/Ta
                 };
 
                 // **** Options! ****
-                this.interval = 30;
+                self.interval = 30;
                 setInterval(function () {
 
                     self.Draw();
